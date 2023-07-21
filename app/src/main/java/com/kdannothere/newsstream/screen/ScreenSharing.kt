@@ -14,19 +14,10 @@ import com.kdannothere.newsstream.NewsViewModel
 @Composable
 fun ScreenSharing(
     navController: NavHostController,
+    viewModel: NewsViewModel
 ) {
-    val backStackEntry = navController.currentBackStackEntryAsState().value
-    val viewModel = backStackEntry?.let { entry ->
-        viewModel<NewsViewModel>(entry)
-    }
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
     }
-}
-
-@Preview
-@Composable
-private fun PreviewScreenSharing() {
-    ScreenSharing(navController = NavHostController(LocalContext.current))
 }

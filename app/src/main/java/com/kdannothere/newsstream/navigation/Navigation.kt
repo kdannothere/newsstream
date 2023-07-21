@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import com.kdannothere.newsstream.NewsViewModel
 import com.kdannothere.newsstream.screen.ScreenSettings
 import com.kdannothere.newsstream.screen.ScreenSharing
-import com.kdannothere.newsstream.screen.ScreenStorage
+import com.kdannothere.newsstream.screen.NewsScreen
 
 @Composable
 fun Navigation(
@@ -20,15 +20,15 @@ fun Navigation(
     val viewModel: NewsViewModel = viewModel()
 
     Surface(modifier = Modifier.fillMaxSize()) {
-        NavHost(navController, Routes.screenStorage) {
-            composable(route = Routes.screenStorage) {
-                ScreenStorage(navController)
+        NavHost(navController, Routes.screenNews) {
+            composable(route = Routes.screenNews) {
+                NewsScreen(navController, viewModel)
             }
             composable(route = Routes.screenSharing) {
-                ScreenSharing(navController)
+                ScreenSharing(navController, viewModel)
             }
             composable(route = Routes.screenSettings) {
-                ScreenSettings(navController)
+                ScreenSettings(navController, viewModel)
             }
         }
     }
