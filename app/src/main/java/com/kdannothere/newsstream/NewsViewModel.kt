@@ -1,5 +1,6 @@
 package com.kdannothere.newsstream
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kdannothere.newsstream.data.NewsRepository
@@ -14,6 +15,7 @@ class NewsViewModel(
     val newsArticles = newsRepository.newsArticles
     val pagination = newsRepository.pagination
     val error = newsRepository.error
+    var currentNewsUrl = mutableStateOf("null")
 
     init {
         viewModelScope.launch(dispatcherIO) {

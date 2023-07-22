@@ -1,11 +1,10 @@
 package com.kdannothere.newsstream.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,9 +32,10 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.kdannothere.newsstream.NewsViewModel
 import com.kdannothere.newsstream.data.NewsArticle
+import com.kdannothere.newsstream.navigation.Routes
 
 @Composable
-fun NewsScreen(
+fun ScreenNewsList(
     navController: NavHostController,
     viewModel: NewsViewModel,
 ) {
@@ -60,12 +60,14 @@ fun NewsScreen(
                     Box(
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        CircularProgressIndicator(Modifier
-                            .fillMaxSize(0.2f)
-                            .align(Alignment.Center)
+                        CircularProgressIndicator(
+                            Modifier
+                                .fillMaxSize(0.2f)
+                                .align(Alignment.Center)
                         )
                     }
                 }
+
                 else -> {
                     LazyColumn(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -74,7 +76,7 @@ fun NewsScreen(
                             .fillMaxSize()
                     ) {
                         items(newsArticles) { article ->
-                            NewsCard(article)
+                            NewsCard(navController, viewModel, article)
                         }
                     }
                 }
@@ -84,12 +86,20 @@ fun NewsScreen(
 }
 
 @Composable
-fun NewsCard(article: NewsArticle) {
+fun NewsCard(
+    navController: NavHostController,
+    viewModel: NewsViewModel,
+    article: NewsArticle,
+) {
     Card(
         elevation = 4.dp,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
+            .clickable {
+                viewModel.currentNewsUrl.value = article.url.toString()
+                navController.navigate(Routes.screenNewsDetails)
+            }
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
