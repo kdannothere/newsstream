@@ -1,14 +1,14 @@
 package com.kdannothere.newsstream.data
 
 data class NewsArticle(
-    val author: String,
-    val title: String,
-    val description: String,
-    val url: String,
-    val source: String,
-    val image: String,
-    val category: String,
-    val language: String,
-    val country: String,
-    val published_at: String
+    val author: String? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val url: String? = null,
+    val source: String? = null,
+    val image: String? = null,
+    val category: String? = null,
+    val language: String? = null,
+    val country: String? = null,
+    val publishedAt: String? = null,
 )

@@ -23,7 +23,6 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 
-
 class NewsRepository(
     private val newsApi: NewsApi = retrofit.create(NewsApi::class.java),
     private val apiKey: String = BuildConfig.API_KEY,
@@ -40,25 +39,10 @@ class NewsRepository(
 
     suspend fun fetchNews() {
         try {
-            val response = newsApi.getNews(apiKey)
-            val responseBody = response.body()
-            if (response.isSuccessful) {
-                // Handle successful response
-                if (responseBody != null) {
-                    _pagination.emit(responseBody.successResponse?.pagination ?: Pagination())
-                    _newsArticles.emit(responseBody.successResponse?.data ?: emptyList())
-                } else {
-                    _pagination.emit(Pagination())
-                    _newsArticles.emit(emptyList())
-                }
-                _error.emit(null)
-            } else {
-                // Handle error response
-                _error.emit(responseBody?.errorResponse?.error?.message ?: "Unknown error")
-            }
+            val newsResponse = newsApi.getNews(apiKey)
+            _newsArticles.emit(newsResponse.data)
         } catch (e: Exception) {
             _error.emit(e.localizedMessage)
-            Log.d("myLog", "Exception")
         }
     }
 }
