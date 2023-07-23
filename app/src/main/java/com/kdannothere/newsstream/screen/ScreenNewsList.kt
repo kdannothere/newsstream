@@ -15,11 +15,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
@@ -34,6 +37,7 @@ import com.kdannothere.newsstream.NewsViewModel
 import com.kdannothere.newsstream.data.NewsArticle
 import com.kdannothere.newsstream.navigation.Routes
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ScreenNewsList(
     navController: NavHostController,
@@ -41,45 +45,40 @@ fun ScreenNewsList(
 ) {
     val newsArticles by viewModel.newsArticles.collectAsState()
     val error by viewModel.error.collectAsState()
+
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val pullRefreshState =
+        rememberPullRefreshState(isRefreshing, onRefresh = {
+            viewModel.fetchNews()
+        })
+
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = "News") }
-                )
-            }
-        ) { paddingValues ->
+        Column(modifier = Modifier.pullRefresh(pullRefreshState)) {
+            PullRefreshIndicator(
+                refreshing = isRefreshing,
+                state = pullRefreshState,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .zIndex(1f)
+            )
             when {
                 (error != null) -> {
                     Text(text = "Error: $error")
                 }
 
-                newsArticles.isEmpty() -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        CircularProgressIndicator(
-                            Modifier
-                                .fillMaxSize(0.2f)
-                                .align(Alignment.Center)
-                        )
-                    }
-                }
-
                 else -> {
                     LazyColumn(
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
                     ) {
                         items(newsArticles) { article ->
                             NewsCard(navController, viewModel, article)
                         }
                     }
                 }
+
             }
         }
     }

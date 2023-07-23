@@ -1,6 +1,5 @@
 package com.kdannothere.newsstream.data
 
-import android.util.Log
 import com.kdannothere.newsstream.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -39,7 +38,11 @@ class NewsRepository(
 
     suspend fun fetchNews() {
         try {
-            val newsResponse = newsApi.getNews(apiKey)
+            val newsResponse = newsApi.getNews(
+                apiKey = apiKey,
+                //date = "&date=2023-01-01",
+                limit = 100,
+            )
             _newsArticles.emit(newsResponse.data)
         } catch (e: Exception) {
             _error.emit(e.localizedMessage)
