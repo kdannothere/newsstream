@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\bohda\\AndroidStudioProjects\\MyProjects\\ReleaseKey\\release.keystore')
+            storePassword STORE_PASSWORD
+            keyAlias ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
     namespace 'com.kdannothere.newsstream'
     compileSdk 33
 
@@ -19,14 +27,17 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         debug {
+        signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -66,21 +77,12 @@ dependencies {
     // WebView
     implementation 'com.google.accompanist:accompanist-webview:0.31.5-beta'
 
-    // Facebook Login
-    implementation 'com.facebook.android:facebook-login:latest.release'
-
-    // Facebook Share
-    implementation 'com.facebook.android:facebook-share:latest.release'
-
     // Moshi
     implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
-
-    // OkHttp
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
 
     // Coil
     implementation("io.coil-kt:coil:2.4.0")
@@ -89,6 +91,9 @@ dependencies {
     // Firebase dependencies for Push Notifications
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-messaging'
+
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
 
     // Other dependencies

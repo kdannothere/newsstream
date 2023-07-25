@@ -19,3 +19,45 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+## This is generated automatically by the Android Gradle plugin.
+#-dontwarn org.bouncycastle.jsse.BCSSLParameters
+#-dontwarn org.bouncycastle.jsse.BCSSLSocket
+#-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+#-dontwarn org.conscrypt.Conscrypt$Version
+#-dontwarn org.conscrypt.Conscrypt
+#-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+#-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+#-dontwarn org.openjsse.net.ssl.OpenJSSE
+
+
+-keep class org.bouncycastle.jsse.BCSSLParameters { *; }
+-keep class org.bouncycastle.jsse.BCSSLSocket { *; }
+-keep class org.bouncycastle.jsse.provider.BouncyCastleJsseProvider { *; }
+-keep class org.conscrypt.Conscrypt$Version { *; }
+-keep class org.conscrypt.Conscrypt { *; }
+-keep class org.openjsse.javax.net.ssl.SSLParameters { *; }
+-keep class org.openjsse.javax.net.ssl.SSLSocket { *; }
+-keep class org.openjsse.net.ssl.OpenJSSE { *; }
+
+# Retrofit
+-dontwarn retrofit2.Platform$Java8
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+# Moshi
+-dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+-dontwarn com.squareup.moshi.**
+-keep class com.squareup.moshi.** { *; }
+-keep @com.squareup.moshi.JsonQualifier interface *
+-keepclassmembers class * {
+    @com.squareup.moshi.FromJson *;
+    @com.squareup.moshi.ToJson *;
+}
+
+# Coil and Coil Compose
+-dontwarn coil.util.*

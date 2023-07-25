@@ -87,17 +87,6 @@ fun SidePanel(
         Row(
             horizontalArrangement = Arrangement.Center,
         ) {
-            Text(text = "Sharing",
-                fontSize = 30.sp,
-                modifier = Modifier.clickable {
-                    viewModel.closeDrawer(drawerState, scope)
-                    navController.navigate(Routes.screenSharing)
-                })
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-        ) {
             Text(text = "Settings",
                 fontSize = 30.sp,
                 modifier = Modifier.clickable {

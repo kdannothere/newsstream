@@ -4,5 +4,4 @@ object Routes {
     const val screenNewsList = "ScreenNewsList"
     const val screenNewsDetails = "ScreenNewsDetails"
     const val screenSettings = "ScreenSettings"
-    const val screenSharing = "ScreenSharing"
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NewsStream</string>
+    <string name="facebook_app_id">977163443510287</string>
+    <string name="facebook_client_token">14093a5077980237fdcccf5361378c52</string>
 </resources>
